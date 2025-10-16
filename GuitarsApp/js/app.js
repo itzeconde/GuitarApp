@@ -24,6 +24,7 @@ import { db } from './guitarras.js'
 //     console.log('Hello ' + name)
 // }
 // sayHello('Paco')
+const carrito = []
 
 const createcard = (guitar) => {
     const div = document.createElement('div')
@@ -43,11 +44,23 @@ const createcard = (guitar) => {
 }
 
 const container = document.querySelector('main div')
+const carritoContainer = document.querySelector('#carrito')
 
 const buttonClicked = (e) => {
     if (e.target.classList.contains('btn')) {
         const dataId = e.target.getAttribute('data-id')
-        console.log(db[Number(dataId) - 1])
+
+        const idCarrito = carrito.findIndex(g => g.id === Number(dataId))
+        if (idCarrito === -1) {
+            const guitar = db.find(g => g.id === Number(dataId))
+            carrito.push({
+                ...guitar,
+                cantidad: 1
+            })
+        } else {
+            carrito[idCarrito].cantidad++
+        }
+        console.log(carrito)
     }
 }
 
