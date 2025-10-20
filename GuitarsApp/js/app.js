@@ -51,7 +51,7 @@ const createCart = (carrito) => {
                     <tbody>`
     carrito.forEach(g => {
         total += g.precio * g.cantidad
-        html += `<tr>
+        html += `<tr data-id="${g.id}">
                     <td>
                         <img class="img-fluid" src="./img/${g.imagen}.jpg" alt="imagen guitarra">
                     </td>
@@ -118,6 +118,16 @@ const carritoClicked = (e) => {
         // Aquí podemos agregar la lógica para manejar los botones dentro del carrito
         const btn = e.target.innerText
         console.log(btn)
+        const idCarrito = e.target.parentElement.parentElement.getAttribute('data-id')
+        const idxCarrito = carrito.findIndex(g => g.id === Number(idCarrito))
+        if (btn === '-') {
+            carrito[idxCarrito].cantidad--
+        } else if (btn === '+') {
+            carrito[idxCarrito].cantidad++
+        } else if (btn === 'X') {
+            carrito.splice(idxCarrito, 1)
+        }
+        createCart(carrito)
     }
 }
 db.forEach((guitar) => {
